@@ -38,7 +38,7 @@ script:
   --coverage-clover build/logs/clover.xml; fi
 
 before_install:
-- openssl aes-256-cbc -K $encrypted_f217180e22ee_key -iv $encrypted_f217180e22ee_iv -in id_rsa.enc -out id_rsa -d
+- openssl aes-256-cbc -K $encrypted_f217180e22ee_key -iv $encrypted_f217180e22ee_iv -in id_rsa.enc -out deploy_key -d
 - eval "$(ssh-agent -s)"
 - chmod 600 ./deploy_key
 - echo -e "Host 68.183.176.96\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
