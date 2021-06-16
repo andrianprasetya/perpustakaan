@@ -81,7 +81,7 @@
 
             <div class="content">
                 <div class="title m-b-md">
-                    Skripsi Andrian
+                    Sidang Sebentar Lagi
                 </div>
 
                 <div class="links">
