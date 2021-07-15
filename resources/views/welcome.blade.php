@@ -81,7 +81,7 @@
 
             <div class="content">
                 <div class="title m-b-md">
-                    Sidang Sebentar Lagi
+                    Testing lagi
                 </div>
 
                 <div class="links">
