@@ -32,10 +32,12 @@ before_script:
   echo "xdebug.overload_var_dump = 1" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
   || true; fi
 - php artisan migrate
-script:
-- if [ "$TRAVIS_PHP_VERSION" != "7.1" ]; then vendor/bin/phpunit; fi
-- if [ "$TRAVIS_PHP_VERSION" == "7.1" ]; then vendor/bin/phpunit --verbose --coverage-text
-  --coverage-clover build/logs/clover.xml; fi
+
+jobs:
+  include:
+    - stage: test
+      script: ./scripts/travis/test.sh
+
 
 before_install:
 - openssl aes-256-cbc -K $encrypted_f217180e22ee_key -iv $encrypted_f217180e22ee_iv -in id_rsa.enc -out deploy_key -d
