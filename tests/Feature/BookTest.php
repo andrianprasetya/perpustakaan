@@ -25,7 +25,7 @@ class BookTest extends TestCase
 
         $response
             ->assertStatus(200)
-            ->assertJsonPath('page_info.total', 1);
+            ->assertJsonPath('page_info.total', 2);
     }
 
     public function testBookSearchMustFail()
