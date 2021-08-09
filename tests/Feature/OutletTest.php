@@ -6,14 +6,14 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
-class BookTest extends TestCase
+class OutletTest extends TestCase
 {
     /**
      * A basic feature test example.
      *
      * @return void
      */
-    public function testBookSearchMustOK()
+    public function testOutletSearchMustOK()
     {
         $dataSearch = [];
         $dataSearch['search'] = 'TestBook';
@@ -28,7 +28,7 @@ class BookTest extends TestCase
             ->assertJsonPath('page_info.total', 1);
     }
 
-    public function testBookSearchMustFail()
+    public function testOutletSearchMustFail()
     {
         $dataSearch = [];
         $dataSearch['search'] = 'TestBook';

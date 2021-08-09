@@ -10,7 +10,7 @@
             <directory suffix="Test.php">./tests/Unit</directory>
         </testsuite>
         <testsuite name="Feature">
-            <file>./tests/Feature/BookTest.php</file>
+            <file>./tests/Feature/OutletTest.php</file>
         </testsuite>
     </testsuites>
     <filter>
