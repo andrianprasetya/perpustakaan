@@ -1,51 +1,44 @@
 language: php
 sudo: false
 dist: trusty
-
-addons:
-  ssh_known_hosts:
-    - 68.183.176.96
 services:
-- postgresql
+  - postgresql
 matrix:
   include:
-  - php: 7.2
-    env:
-    - COVERAGE=1 XDEBUG=1
-    - PHPUNIT_VERSION=^7.5
-  - php: 7.3
-    env:
-    - COVERAGE=1 XDEBUG=1
-    - PHPUNIT_VERSION=^8.0
+    - php: 7.2
+      env:
+        - COVERAGE=1 XDEBUG=1
+        - PHPUNIT_VERSION=^7.5
+    - php: 7.3
+      env:
+        - COVERAGE=1 XDEBUG=1
+        - PHPUNIT_VERSION=^8.0
   fast_finish: true
   allow_failures:
-  - php: 7.3
+    - php: 7.3
 before_script:
-- curl --version
-- composer require "phpunit/phpunit:${PHPUNIT_VERSION}" --dev --no-update -n
-- travis_retry composer install --no-interaction --prefer-source --dev
-- cp phpunit.xml.travis phpunit.xml
-- cp .env.travis .env
-- psql -c 'create database travis_test;' -U postgres
-- psql -c 'create database testing_lokal;' -U postgres
-- if [[ "$TRAVIS_PHP_VERSION" != "7.0" || "$TRAVIS_PHP_VERSION" != "7.1" ]]; then
-  echo "xdebug.overload_var_dump = 1" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
-  || true; fi
-- php artisan migrate
-
-jobs:
-  include:
-    - stage: test
-      script: ./scripts/travis/test.sh
-
+  - curl --version
+  - composer require "phpunit/phpunit:${PHPUNIT_VERSION}" --dev --no-update -n
+  - travis_retry composer install --no-interaction --prefer-source --dev
+  - cp phpunit.xml.travis phpunit.xml
+  - cp .env.travis .env
+  - psql -c 'create database travis_test;' -U postgres
+  - if [[ "$TRAVIS_PHP_VERSION" != "7.0" || "$TRAVIS_PHP_VERSION" != "7.1" ]]; then
+    echo "xdebug.overload_var_dump = 1" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
+    || true; fi
+  - php artisan migrate
+script:
+  - if [ "$TRAVIS_PHP_VERSION" != "7.1" ]; then vendor/bin/phpunit; fi
+  - if [ "$TRAVIS_PHP_VERSION" == "7.1" ]; then vendor/bin/phpunit --verbose --coverage-text
+    --coverage-clover build/logs/clover.xml; fi
+after_script:
+  - if [ "$TRAVIS_BRANCH" = "develop" ]; then ssh -i ./id_rsa root@68.183.176.96 cd /var/www/html/perpustakaan/ && git
+    pull origin develop
 
 before_install:
-- openssl aes-256-cbc -K $encrypted_f217180e22ee_key -iv $encrypted_f217180e22ee_iv -in id_rsa.enc -out deploy_key -d
-- eval "$(ssh-agent -s)"
-- chmod 600 ./deploy_key
-- echo -e "Host 68.183.176.96\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
-- ssh-add ./deploy_key
-
-after_success:
-- bash <(curl -s https://codecov.io/bash)
-- ssh -i ./deploy_key travis@68.183.176.96 -p 22 "cd /var/www/html/library && git pull origin develop"
+  - openssl aes-256-cbc -e -in github_deploy_key -pass 'pass:your encryption password' -md sha256 -out github_deploy_key.enc
+  - eval "$(ssh-agent -s)"
+  - chmod 600 ./deploy_key
+  - echo -e "Host 68.183.176.96\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
+  - ssh-add ./deploy_key
+after_success: bash <(curl -s https://codecov.io/bash)

@@ -6,14 +6,14 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
-class OutletTest extends TestCase
+class BookTest extends TestCase
 {
     /**
      * A basic feature test example.
      *
      * @return void
      */
-    public function testOutletSearchMustOK()
+    public function testBookSearchMustOK()
     {
         $dataSearch = [];
         $dataSearch['search'] = 'TestBook';
