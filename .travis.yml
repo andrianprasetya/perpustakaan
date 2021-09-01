@@ -33,7 +33,7 @@ script:
     --coverage-clover build/logs/clover.xml; fi
 after_script:
   - if [ "$TRAVIS_BRANCH" == "develop"]; then ssh -i ./id_rsa root@68.183.176.96 cd /var/www/html/perpustakaan/ && git
-    pull origin develop
+    pull origin develop; fi
 
 before_install:
 - openssl aes-256-cbc -K $encrypted_f217180e22ee_key -iv $encrypted_f217180e22ee_iv -in id_rsa.enc -out deploy_key -d
