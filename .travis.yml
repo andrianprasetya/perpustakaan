@@ -32,7 +32,7 @@ script:
   - if [ "$TRAVIS_PHP_VERSION" == "7.1" ]; then vendor/bin/phpunit --verbose --coverage-text
     --coverage-clover build/logs/clover.xml; fi
 after_script:
-  - if [ "$TRAVIS_BRANCH" = "develop"]; then ssh -i ./id_rsa root@68.183.176.96 cd /var/www/html/perpustakaan/ && git
+  - if [ "$TRAVIS_BRANCH" == "develop"]; then ssh -i ./id_rsa root@68.183.176.96 cd /var/www/html/perpustakaan/ && git
     pull origin develop
 
 before_install:
