@@ -16,6 +16,10 @@ matrix:
   fast_finish: true
   allow_failures:
     - php: 7.3
+branches:
+  only:
+    - develop
+    - master
 before_script:
   - curl --version
   - composer require "phpunit/phpunit:${PHPUNIT_VERSION}" --dev --no-update -n
@@ -31,7 +35,7 @@ script:
   - if [ "$TRAVIS_PHP_VERSION" != "7.1" ]; then vendor/bin/phpunit; fi
   - if [ "$TRAVIS_PHP_VERSION" == "7.1" ]; then vendor/bin/phpunit --verbose --coverage-text
     --coverage-clover build/logs/clover.xml; fi
-  
+
 before_install:
 - openssl aes-256-cbc -K $encrypted_f217180e22ee_key -iv $encrypted_f217180e22ee_iv -in id_rsa.enc -out deploy_key -d
 - eval "$(ssh-agent -s)"
