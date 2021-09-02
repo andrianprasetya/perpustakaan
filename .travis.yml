@@ -33,7 +33,8 @@ script:
     --coverage-clover build/logs/clover.xml; fi
 
 before_install:
-- openssl aes-256-cbc -K $encrypted_f217180e22ee_key -iv $encrypted_f217180e22ee_iv -in id_rsa.enc -out deploy_key -d
+- if [ "$TRAVIS_BRANCH" == "develop" ]; then openssl aes-256-cbc -K $encrypted_f217180e22ee_key -iv $encrypted_f217180e22ee_iv -in id_rsa.enc -out deploy_key -d; fi
+- if [ "$TRAVIS_BRANCH" == "master" ]; then openssl aes-256-cbc -K $encrypted_f217180e22ee_key -iv $encrypted_f217180e22ee_iv -in deploy_prod -out deploy_key -d
 - eval "$(ssh-agent -s)"
 - chmod 600 ./deploy_key
 - echo -e "Host 68.183.176.96\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
@@ -42,4 +43,4 @@ before_install:
 after_success:
 - bash <(curl -s https://codecov.io/bash)
 - if [ "$TRAVIS_BRANCH" == "develop" ]; then ssh -i ./deploy_key travis@68.183.176.96 -p 22 "cd /var/www/html/library && git pull origin develop"; fi
-- if [ "$TRAVIS_BRANCH" == "master" ]; then ssh -i ./deploy_key travis@128.199.134.135 -p 22 "cd /var/www/html/perpus-prod && git pull origin master"; fi
+- if [ "$TRAVIS_BRANCH" == "master" ]; then ssh -i ./deploy_key travis-prod@128.199.134.135 -p 22 "cd /var/www/html/perpus-prod && git pull origin master"; fi
