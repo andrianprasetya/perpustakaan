@@ -42,3 +42,4 @@ before_install:
 after_success:
 - bash <(curl -s https://codecov.io/bash)
 - if [ "$TRAVIS_BRANCH" == "develop" ]; then ssh -i ./deploy_key travis@68.183.176.96 -p 22 "cd /var/www/html/library && git pull origin develop"; fi
+- if [ "$TRAVIS_BRANCH" == "master" ]; then ssh -i ./deploy_key travis@128.199.134.135 -p 22 "cd /var/www/html/perpus-prod && git pull origin master"; fi
