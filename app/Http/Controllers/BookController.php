@@ -90,7 +90,33 @@ class BookController extends Controller
             return ResponseStd::fail($e->getMessage());
         }
     }
+    public function show($id){
+        try {
+            $data = Book::query()->findOrFail($id);
 
+            return ResponseStd::okSingle($data);
+        }catch (\Exception $e){
+            Log::error($e->getMessage());
+        }
+    }
 
+    public function delete(Request $request)
+    {
+        DB::beginTransaction();
+        try {
+            $item = Book::query()->find($request->input('id'));
+            if (!$item) {
+                throw new \Exception('Invalid Book Id');
+            }
 
+            $item->delete();
+            DB::commit();
+
+            return ResponseStd::okSingle($item);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Log::error(__CLASS__ . ":" . __FUNCTION__ . ' ' . $e->getMessage());
+            return ResponseStd::fail($e->getMessage());
+        }
+    }
 }

@@ -21,4 +21,6 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::group(['prefix' => 'book'], function () {
     Route::get('/', ['as' => 'book.index', 'uses' => 'BookController@index']);
     Route::post('/store', ['as' => 'book.store', 'uses' => 'BookController@store']);
+    Route::get('/show/{id}', ['as' => 'book.show', 'uses' => 'BookController@show']);
+    Route::post('/delete', ['as' => 'book.delete', 'uses' => 'BookController@delete']);
 });
