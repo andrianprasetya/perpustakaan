@@ -29,7 +29,7 @@ class BookTest extends TestCase
             ->assertJsonPath('page_info.total', 1);
     }
 
-    public function testOutletSearchMustFail()
+    public function testUserSearchMustFail()
     {
         $dataSearch = [];
         $dataSearch['search'] = 'TestBook';
