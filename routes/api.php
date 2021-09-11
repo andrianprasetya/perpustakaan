@@ -24,3 +24,9 @@ Route::group(['prefix' => 'book'], function () {
     Route::get('/show/{id}', ['as' => 'book.show', 'uses' => 'BookController@show']);
     Route::post('/delete', ['as' => 'book.delete', 'uses' => 'BookController@delete']);
 });
+
+Route::group(['prefix' => 'user'], function () {
+    Route::get('/', ['as' => 'user.index', 'uses' => 'UserController@index']);
+    Route::post('/store', ['as' => 'user.store', 'uses' => 'UserController@store']);
+    Route::post('/delete', ['as' => 'user.delete', 'uses' => 'UserController@delete']);
+});

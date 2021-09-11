@@ -11,6 +11,7 @@
         </testsuite>
         <testsuite name="Feature">
             <file>./tests/Feature/BookTest.php</file>
+            <file>./tests/Feature/UserTest.php</file>
         </testsuite>
     </testsuites>
     <filter>
